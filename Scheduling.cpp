@@ -231,3 +231,21 @@ sort( input.begin(), input.end(), idsort );
 			}
 		}
 	}
+sort( input.begin(), input.end(), Numsort );
+	for(int i=0;i<n;i++)
+	{
+		input[i].Res_T=input[i].ST-input[i].AT;
+		input[i].WT=(input[i].FT-input[i].AT)-input[i].BT;
+
+	}
+
+	cout<<endl<<"**************************************************************"<<endl;
+	cout<<endl;
+	cout<<"Process Id  |  Response_Time  |  Finish_Time  |  Waiting_Time "<<endl;
+	for(int i=0;i<n;i++)
+	{
+		cout<<"       "<< input[i].Pid <<"            "<< input[i].Res_T <<"             "<< input[i].FT <<"               "<< input[i].WT <<endl;
+	}
+	return 0;
+}
+
