@@ -219,3 +219,15 @@ sort( input.begin(), input.end(), idsort );
 			}
 		}
 	}
+       for(int i=0;i<n;i++)
+	{
+		for(int k=0;k<total_time;k++)
+		{
+
+			if(Ghant[k]==i+1)
+			{
+				input[i].ST=k;
+				break;
+			}
+		}
+	}
