@@ -115,3 +115,9 @@ int main()
     	}
     }
 }
+int Ghant[total_time]={0};
+	for( i= 0; i< total_time; i++ )
+	{
+		Ghant[i]=-1;
+	}
+	
