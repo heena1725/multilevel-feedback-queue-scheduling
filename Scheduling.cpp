@@ -126,19 +126,17 @@ int Ghant[total_time]={0};
 	int quantum = 4 ;
 	current.Pid = -2;
 	current.P = 999999;
-for ( clock = 0; clock< total_exection_time; clock++ )
+for ( clock = 0; clock< total_time; clock++ )
 	{
-		/**Insert the process with same Arrival time in Priority Queue**/
 		for( int j = 0; j< n ; j++ )
 		{
-			if(clock == input[j].A_time)
+			if(clock == input[j].AT)
 			{
 				pq.push(input[j]);
 			}
 		}
 
-
-		if(cpu_state == 0) //If CPU idle
+		if(cpu_state == 0)
 		{
 			if(!pq.empty())
 			{
@@ -157,19 +155,19 @@ for ( clock = 0; clock< total_exection_time; clock++ )
 				quantum = 4;
 			}
 		}
-		else if(cpu_state == 1) //If cpu has any procss
+		else if(cpu_state == 1)
 		{
 			if(pq_process == 1 && (!pq.empty()))
 			{
-				if(pq.top().Priority < current.Priority ) //If new process has high priority
+				if(pq.top().P < current.P )
 				{
-					rq.push(current); //push current in RQ
+					rq.push(current);
 					current = pq.top();
 					pq.pop();
 					quantum = 4;
 				}
 			}
-			else if(rq_process == 1 && (!pq.empty())) //If process is from RQ and new process come  in PQ
+			else if(rq_process == 1 && (!pq.empty()))
 			{
 				rq.push(current);
 				current = pq.top();
@@ -183,32 +181,41 @@ for ( clock = 0; clock< total_exection_time; clock++ )
 		}
 
 
-		if(current.Pid != -2) // Process Execution
-		{
-			current.R_time--;
+		if(current.Pid != -2)
+			current.RT--;
 			quantum--;
+		{
 			Ghant[clock] = current.Pid;
-			if(current.R_time == 0) //If process Finish
+			if(current.RT == 0)
 			{
 				cpu_state = 0 ;
 				quantum = 4 ;
 				current.Pid = -2;
-				current.Priority = 999999;
+				current.P = 999999;
 				rq_process = 0;
 				pq_process = 0;
 			}
-			else if(quantum == 0 ) //If time Qunatum of a current running process Finish
+			else if(quantum == 0 )
 			{
 				rq.push(current);
 				current.Pid = -2;
-				current.Priority = 999999;
+				current.P = 999999;
 				rq_process = 0;
 				pq_process = 0;
 				cpu_state=0;
-
 			}
-
 		}
-
 	}
-	
+sort( input.begin(), input.end(), idsort );
+
+	for(int i=0;i<n;i++)
+	{
+		for(int k=total_time;k>=0;k--)
+		{
+			if(Ghant[k]==i+1)
+			{
+				input[i].FT=k+1;
+				break;
+			}
+		}
+	}
