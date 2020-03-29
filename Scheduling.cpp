@@ -126,4 +126,89 @@ int Ghant[total_time]={0};
 	int quantum = 4 ;
 	current.Pid = -2;
 	current.P = 999999;
+for ( clock = 0; clock< total_exection_time; clock++ )
+	{
+		/**Insert the process with same Arrival time in Priority Queue**/
+		for( int j = 0; j< n ; j++ )
+		{
+			if(clock == input[j].A_time)
+			{
+				pq.push(input[j]);
+			}
+		}
+
+
+		if(cpu_state == 0) //If CPU idle
+		{
+			if(!pq.empty())
+			{
+				current = pq.top();
+				cpu_state = 1;
+				pq_process = 1;
+				pq.pop();
+				quantum = 4;
+			}
+			else if(!rq.empty())
+			{
+				current = rq.front();
+				cpu_state = 1;
+				rq_process = 1;
+				rq.pop();
+				quantum = 4;
+			}
+		}
+		else if(cpu_state == 1) //If cpu has any procss
+		{
+			if(pq_process == 1 && (!pq.empty()))
+			{
+				if(pq.top().Priority < current.Priority ) //If new process has high priority
+				{
+					rq.push(current); //push current in RQ
+					current = pq.top();
+					pq.pop();
+					quantum = 4;
+				}
+			}
+			else if(rq_process == 1 && (!pq.empty())) //If process is from RQ and new process come  in PQ
+			{
+				rq.push(current);
+				current = pq.top();
+				pq.pop();
+				rq_process = 0;
+				pq_process = 1;
+				quantum = 4 ;
+			}
+
+
+		}
+
+
+		if(current.Pid != -2) // Process Execution
+		{
+			current.R_time--;
+			quantum--;
+			Ghant[clock] = current.Pid;
+			if(current.R_time == 0) //If process Finish
+			{
+				cpu_state = 0 ;
+				quantum = 4 ;
+				current.Pid = -2;
+				current.Priority = 999999;
+				rq_process = 0;
+				pq_process = 0;
+			}
+			else if(quantum == 0 ) //If time Qunatum of a current running process Finish
+			{
+				rq.push(current);
+				current.Pid = -2;
+				current.Priority = 999999;
+				rq_process = 0;
+				pq_process = 0;
+				cpu_state=0;
+
+			}
+
+		}
+
+	}
 	
