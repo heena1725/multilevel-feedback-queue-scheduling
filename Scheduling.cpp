@@ -120,4 +120,10 @@ int Ghant[total_time]={0};
 	{
 		Ghant[i]=-1;
 	}
+        priority_queue < P_d ,vector<Process_Data> ,comPare> pq;
+	queue< P_d > rq;
+	int cpu_state = 0;
+	int quantum = 4 ;
+	current.Pid = -2;
+	current.P = 999999;
 	
